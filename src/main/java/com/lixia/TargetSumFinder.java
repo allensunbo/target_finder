@@ -61,8 +61,9 @@ public class TargetSumFinder {
                 String moneyString = formatter.format(i / 100.00);
                 sb.append(moneyString).append("+");
             }
-            System.out.println(sb.deleteCharAt(sb.length() - 1).toString());
-            results.add(sb.deleteCharAt(sb.length() - 1).toString());
+            String o = sb.deleteCharAt(sb.length() - 1).toString();
+            System.out.println(o);
+            results.add(o);
         }
     }
 }
