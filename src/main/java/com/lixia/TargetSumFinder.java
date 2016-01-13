@@ -1,7 +1,9 @@
 package com.lixia;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 public class TargetSumFinder {
@@ -9,14 +11,15 @@ public class TargetSumFinder {
     /*private static final int[] DATA = new int[]{
             26546550, 448850, 39900, 680896, 7897000, 146400, 352400, 3373100, 697000, 722625, 56480400, 104950, 2168700, 833000, 2733611, 1074666, 84607, 3829803, 8799, 3251200, 10000, 1538697, 1030198, 1284273, 2438199, 749048, 3765596};*/
 
-    public static void find(int[] DATA, int TARGET_SUM) {
+    public static List<String> find(int[] DATA, int TARGET_SUM) {
         Arrays.sort(DATA);
         /*for (int i = 0; i < DATA.length; i++) {
             System.out.println(DATA[i]);
         }*/
-        System.out.println("===========================");
+        System.out.println("result:");
         GetAllSubsetByStack get = new GetAllSubsetByStack(TARGET_SUM);
         get.populateSubset(DATA, 0, DATA.length);
+        return get.getResults();
     }
 
 
@@ -24,6 +27,11 @@ public class TargetSumFinder {
         private int TARGET_SUM;
         private Stack<Integer> stack = new Stack<Integer>();
         private int sumInStack = 0;
+        private List<String> results = new ArrayList();
+
+        public List<String> getResults() {
+            return results;
+        }
 
         GetAllSubsetByStack(int TARGET_SUM) {
             this.TARGET_SUM = TARGET_SUM;
@@ -54,6 +62,7 @@ public class TargetSumFinder {
                 sb.append(moneyString).append("+");
             }
             System.out.println(sb.deleteCharAt(sb.length() - 1).toString());
+            results.add(sb.deleteCharAt(sb.length() - 1).toString());
         }
     }
 }

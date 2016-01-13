@@ -7,6 +7,7 @@ import javax.xml.ws.*;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.http.HTTPBinding;
 import java.io.StringReader;
+import java.text.NumberFormat;
 import java.util.List;
 
 @WebServiceProvider
@@ -45,15 +46,26 @@ public class Server implements Provider<Source> {
             }
         }
 
-        System.out.println("target = $" + (targetSum / 100.0));
-        System.out.print("source = ");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        System.out.println("==================");
+        System.out.println("Data received: ");
+        System.out.println("    target = " + formatter.format(targetSum / 100.0));
+        System.out.print("    source = ");
         for (int i = 0; i < source.length; i++) {
-            System.out.print("$" + source[i] / 100.0 + " + ");
+            System.out.print(formatter.format(source[i] / 100.0));
+            if (i < source.length - 1) {
+                System.out.print(", ");
+            }
         }
         System.out.println("");
-        TargetSumFinder.find(source, targetSum);
-
-        return new StreamSource(new StringReader("<p>Hello There!</p>"));
+        List<String> results = TargetSumFinder.find(source, targetSum);
+        for(String r: results) {
+            // System.out.println(r);
+        }
+        if(results.isEmpty()) {
+            return new StreamSource(new StringReader("<result>NOT FOUND!</result>"));
+        }
+        return new StreamSource(new StringReader("<result>"+results.get(0)+"</result>"));
     }
 
     public static void main(String[] args) throws InterruptedException {
